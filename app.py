@@ -49,9 +49,9 @@ def save():
     department = request.form['department']
     signature_data = request.form.get('photo_data', '')
 
-    from datetime import datetime, timedelta
-
-now = datetime.utcnow() + timedelta(hours=5, minutes=30)
+    now = datetime.now(
+    ZoneInfo("Asia/Kolkata")
+)
 
     date = now.strftime("%d-%m-%Y")
     checkin_time = now.strftime("%I:%M %p")
@@ -100,7 +100,7 @@ now = datetime.utcnow() + timedelta(hours=5, minutes=30)
 
             safe_name = name.replace(" ", "_")
 
-            signature_filename = f"{safe_name}_{timestamp}.png"
+            signature_filename = f"{safe_name}_{timestamp}.jpg"
 
             filepath = os.path.join(
     "static",
@@ -112,7 +112,7 @@ now = datetime.utcnow() + timedelta(hours=5, minutes=30)
                 f.write(image_data)
 
         except Exception as e:
-            print("Signature Error:", e)
+            print("Photo Error:", e)
 
     cursor.execute(
         """
