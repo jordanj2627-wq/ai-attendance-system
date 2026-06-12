@@ -237,8 +237,8 @@ function capturePhoto() {
     const canvas =
         document.getElementById("photoCanvas");
 
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    canvas.width = 640;
+    canvas.height = 480;
 
     const ctx =
         canvas.getContext("2d");
@@ -247,12 +247,15 @@ function capturePhoto() {
         video,
         0,
         0,
-        canvas.width,
-        canvas.height
+        640,
+        480
     );
 
     const imageData =
-        canvas.toDataURL("image/png");
+        canvas.toDataURL(
+            "image/jpeg",
+            0.4
+        );
 
     document.getElementById(
         "photo_data"
@@ -264,9 +267,13 @@ function capturePhoto() {
         );
 
     preview.src = imageData;
-    preview.style.display = "block";
 
-    alert("Selfie Captured Successfully");
+    preview.style.display =
+        "block";
+
+    alert(
+        "Selfie Captured Successfully"
+    );
 }
 
 </script>
