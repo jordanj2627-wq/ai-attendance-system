@@ -93,7 +93,7 @@
 
     <h1>AI Training Attendance System</h1>
 
-    <form action="/save" method="POST">
+    <form action="/save" method="POST" onsubmit="return validateForm()">
 
         <label>Name</label>
 
@@ -275,7 +275,22 @@ function capturePhoto() {
         "Selfie Captured Successfully"
     );
 }
+function validateForm() {
 
+    let photo =
+        document.getElementById("photo_data").value;
+
+    if(photo === "") {
+
+        alert(
+            "Please capture a selfie first."
+        );
+
+        return false;
+    }
+
+    return true;
+}
 </script>
 
 </body>
