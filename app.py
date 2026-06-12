@@ -7,6 +7,7 @@ import base64
 from datetime import datetime
 
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.secret_key = "BelgiumAttendance2026"
 
 ADMIN_USERNAME = "Jordan"
@@ -45,7 +46,7 @@ def save():
 
     name = request.form['name'].strip()
     department = request.form['department']
-    signature_data = request.form.get('signature_data', '')
+    signature_data = request.form.get('photo_data', '')
 
     now = datetime.now()
 
