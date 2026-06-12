@@ -1,393 +1,274 @@
 <!DOCTYPE html>
-
 <html>
 <head>
-<title>AI Attendance System</title>
+    <title>AI Attendance System</title>
 
-<style>
+    <style>
+        body{
+            font-family: Arial;
+            background:#f4f6f9;
+        }
 
-body{
-    font-family: Arial;
-    background:#f4f6f9;
-}
+        .container{
+            width:500px;
+            max-width:95%;
+            margin:30px auto;
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0px 0px 10px lightgray;
+        }
 
-.container{
-    width:500px;
-    margin:50px auto;
-    background:white;
-    padding:30px;
-    border-radius:10px;
-    box-shadow:0px 0px 10px lightgray;
-}
+        h1{
+            text-align:center;
+            color:#0b5394;
+        }
 
-h1{
-    text-align:center;
-    color:#0b5394;
-}
+        input,
+        select{
+            width:100%;
+            padding:10px;
+            margin-top:10px;
+            box-sizing:border-box;
+        }
 
-input,
-select{
-    width:100%;
-    padding:10px;
-    margin-top:10px;
-    box-sizing:border-box;
-}
+        button{
+            background:#0b5394;
+            color:white;
+            border:none;
+            padding:12px;
+            width:100%;
+            margin-top:15px;
+            cursor:pointer;
+            border-radius:5px;
+        }
 
-button{
-    background:#0b5394;
-    color:white;
-    border:none;
-    padding:12px;
-    width:100%;
-    margin-top:15px;
-    cursor:pointer;
-    border-radius:5px;
-}
+        button:hover{
+            background:#083763;
+        }
 
-button:hover{
-    background:#083763;
-}
+        .checkout-btn{
+            background:#2e7d32;
+        }
 
-.checkout-btn{
-    background:#2e7d32;
-}
-
-.checkout-btn:hover{
-    background:#1b5e20;
-}
-
-#signature-pad{
-    border:2px solid #ccc;
-    width:100%;
-    height:200px;
-    background:white;
-    margin-top:10px;
-}
-
-</style>
-
+        .checkout-btn:hover{
+            background:#1b5e20;
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="container">
 
-<div style="text-align:center;margin-bottom:20px;">
+    <div style="text-align:center;margin-bottom:20px;">
 
-    <img
-    src="{{ url_for('static', filename='company_banner.jpg') }}"
-    style="
-        width:100%;
-        max-height:300px;
-        object-fit:cover;
-        border-radius:10px;
-        margin-bottom:20px;
-    ">
+        <img
+            src="{{ url_for('static', filename='company_banner.jpg') }}"
+            style="
+                width:100%;
+                max-height:300px;
+                object-fit:cover;
+                border-radius:10px;
+                margin-bottom:20px;
+            "
+        >
 
-    <h1 style="
-        color:#0b5394;
-        font-size:42px;
-        margin-bottom:10px;
-    ">
-        BRIGHT TRADING INDIA LLP
-    </h1>
+        <h1 style="
+            color:#0b5394;
+            font-size:42px;
+            margin-bottom:10px;
+        ">
+            BRIGHT TRADING INDIA LLP
+        </h1>
 
-    <h3 style="
-        color:#666;
-        font-weight:normal;
-    ">
-        Attendance Management System
-    </h3>
+        <h3 style="
+            color:#666;
+            font-weight:normal;
+        ">
+            Attendance Management System
+        </h3>
 
-</div>
+    </div>
 
-<h1>AI Training Attendance System</h1>
+    <h1>AI Training Attendance System</h1>
 
-<form action="/save" method="POST" onsubmit="return saveSignature()">
+    <form action="/save" method="POST">
 
-<label>Name</label>
+        <label>Name</label>
 
-<input
-type="text"
-name="name"
-id="name"
-placeholder="Enter Your Name"
-required>
+        <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Enter Your Name"
+            required
+        >
 
-<br><br>
+        <br><br>
 
-<label>Department</label>
+        <label>Department</label>
 
-<select name="department" required>
+        <select name="department" required>
 
-```
-<option value="">Select Department</option>
+            <option value="">Select Department</option>
 
-<option value="Accounts">Accounts</option>
-<option value="HR">HR</option>
-<option value="Sales">Sales</option>
-<option value="IT">IT</option>
-<option value="Production">Production</option>
-<option value="Buying">Buying</option>
-<option value="Export">Export</option>
-```
+            <option value="Accounts">Accounts</option>
+            <option value="HR">HR</option>
+            <option value="Sales">Sales</option>
+            <option value="IT">IT</option>
+            <option value="Production">Production</option>
+            <option value="Buying">Buying</option>
+            <option value="Export">Export</option>
 
-</select>
+        </select>
 
-<br><br>
+        <br><br>
 
-<label>Take Selfie</label>
+        <label>Take Selfie</label>
 
-<video
-id="camera"
-width="100%"
-autoplay
-playsinline
-style="
-border:2px solid #ccc;
-border-radius:10px;
-">
-</video>
+        <video
+            id="camera"
+            width="100%"
+            autoplay
+            playsinline
+            muted
+            style="
+                border:2px solid #ccc;
+                border-radius:10px;
+                background:black;
+            ">
+        </video>
 
-<br><br>
+        <br><br>
 
-<button
-type="button"
-onclick="capturePhoto()">
-Capture Selfie
-</button>
+        <button
+            type="button"
+            onclick="capturePhoto()">
+            Capture Selfie
+        </button>
 
-<canvas
-id="photoCanvas"
-style="display:none;">
-</canvas>
+        <canvas
+            id="photoCanvas"
+            style="display:none;">
+        </canvas>
 
-<img
-id="preview"
-style="
-width:100%;
-display:none;
-margin-top:10px;
-border-radius:10px;
-">
+        <img
+            id="preview"
+            style="
+                width:100%;
+                display:none;
+                margin-top:10px;
+                border-radius:10px;
+            ">
 
-<input
-type="hidden"
-name="photo_data"
-id="photo_data">
+        <input
+            type="hidden"
+            name="photo_data"
+            id="photo_data">
 
-</form>
+        <button type="submit">
+            Check In
+        </button>
 
-<br>
+    </form>
 
-<form action="/checkout" method="POST">
+    <br>
 
-<label>Employee Name For Check Out</label>
+    <form action="/checkout" method="POST">
 
-<input
-type="text"
-name="name"
-placeholder="Enter Your Name"
-required>
+        <label>Employee Name For Check Out</label>
 
-<button
-type="submit"
-class="checkout-btn">
-Check Out </button>
+        <input
+            type="text"
+            name="name"
+            placeholder="Enter Your Name"
+            required>
 
-</form>
+        <button
+            type="submit"
+            class="checkout-btn">
+            Check Out
+        </button>
+
+    </form>
 
 </div>
 
 <script>
 
-const canvas = document.getElementById("signature-pad");
-const ctx = canvas.getContext("2d");
+const video = document.getElementById("camera");
 
-canvas.width = 440;
-canvas.height = 200;
+async function startCamera() {
 
-let drawing = false;
-let hasSignature = false;
+    try {
 
-canvas.addEventListener("mousedown", () => {
-    drawing = true;
-});
+        const stream =
+            await navigator.mediaDevices.getUserMedia({
+                video: {
+                    facingMode: "user"
+                }
+            });
 
-canvas.addEventListener("mouseup", () => {
-    drawing = false;
-    ctx.beginPath();
-});
+        video.srcObject = stream;
 
-canvas.addEventListener("mouseleave", () => {
-    drawing = false;
-    ctx.beginPath();
-});
+    } catch (error) {
 
-canvas.addEventListener("mousemove", draw);
+        console.error(error);
 
-function draw(e){
-
-    if(!drawing) return;
-
-    hasSignature = true;
-
-    const rect = canvas.getBoundingClientRect();
-
-    ctx.lineWidth = 2;
-    ctx.lineCap = "round";
-
-    ctx.lineTo(
-        e.clientX - rect.left,
-        e.clientY - rect.top
-    );
-
-    ctx.stroke();
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        e.clientX - rect.left,
-        e.clientY - rect.top
-    );
+        alert(
+            "Camera access failed.\n\n" +
+            "Please allow camera permission and refresh the page.\n\n" +
+            error.message
+        );
+    }
 }
 
-function clearPad(){
+startCamera();
 
-    ctx.clearRect(
+function capturePhoto() {
+
+    if (!video.srcObject) {
+
+        alert("Camera is not running.");
+        return;
+    }
+
+    const canvas =
+        document.getElementById("photoCanvas");
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    const ctx =
+        canvas.getContext("2d");
+
+    ctx.drawImage(
+        video,
         0,
         0,
         canvas.width,
         canvas.height
     );
 
-    hasSignature = false;
-}
-
-function saveSignature(){
-document
-.getElementById("photo")
-.addEventListener("change", function(event){
-
-    const file =
-        event.target.files[0];
-
-    if(file){
-
-        const reader =
-            new FileReader();
-
-        reader.onload =
-        function(e){
-
-            const preview =
-                document.getElementById(
-                    "preview"
-                );
-
-            preview.src =
-                e.target.result;
-
-            preview.style.display =
-                "block";
-        };
-
-        reader.readAsDataURL(file);
-    }
-});
-
-    let name =
-        document.getElementById("name").value.trim();
-
-    if(name === ""){
-
-        alert(
-            "Please enter your name."
-        );
-
-        return false;
-    }
-
-    if(!hasSignature){
-
-        alert(
-            "Please provide your signature."
-        );
-
-        return false;
-    }
-
-    let dataURL =
-        canvas.toDataURL("image/png");
-
-    document.getElementById(
-        "signature_data"
-    ).value = dataURL;
-
-    return true;
-}
-
-const video =
-document.getElementById("camera");
-
-navigator.mediaDevices
-.getUserMedia({
-    video:{
-        facingMode:"user"
-    }
-})
-.then(function(stream){
-    video.srcObject = stream;
-})
-.catch(function(error){
-    console.log(error);
-});
-
-function capturePhoto(){
-
-    const canvas =
-    document.getElementById(
-        "photoCanvas"
-    );
-
-    canvas.width =
-    video.videoWidth;
-
-    canvas.height =
-    video.videoHeight;
-
-    const ctx =
-    canvas.getContext("2d");
-
-    ctx.drawImage(
-        video,
-        0,
-        0
-    );
-
     const imageData =
-    canvas.toDataURL(
-        "image/png"
-    );
+        canvas.toDataURL("image/png");
 
     document.getElementById(
         "photo_data"
     ).value = imageData;
 
     const preview =
-    document.getElementById(
-        "preview"
-    );
+        document.getElementById(
+            "preview"
+        );
 
     preview.src = imageData;
+    preview.style.display = "block";
 
-    preview.style.display =
-    "block";
-
-    alert(
-        "Selfie Captured Successfully"
-    );
+    alert("Selfie Captured Successfully");
 }
+
 </script>
 
 </body>
