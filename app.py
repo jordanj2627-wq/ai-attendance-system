@@ -14,7 +14,7 @@ ADMIN_USERNAME = "Jordan"
 ADMIN_PASSWORD = "Belgium@TS"
 
 # Create signatures folder
-os.makedirs("static/signatures", exist_ok=True)
+os.makedirs("static/photos", exist_ok=True)
 
 # Create database
 conn = sqlite3.connect("attendance.db")
@@ -100,10 +100,10 @@ def save():
             signature_filename = f"{safe_name}_{timestamp}.png"
 
             filepath = os.path.join(
-                "static",
-                "signatures",
-                signature_filename
-            )
+    "static",
+    "photos",
+    signature_filename
+)
 
             with open(filepath, "wb") as f:
                 f.write(image_data)
@@ -435,7 +435,7 @@ Export Attendance
         <th>Date</th>
         <th>Check In</th>
         <th>Check Out</th>
-        <th>Signature</th>
+        <th>Selfie</th>
     </tr>
     """
 
@@ -444,7 +444,7 @@ Export Attendance
         signature_html = "No Signature"
 
         if row[6]:
-            signature_html = f'<img src="/static/signatures/{row[6]}">'
+            signature_html = f'<img src="/static/photos/{row[6]}">'
 
         html += f"""
         <tr>
