@@ -5,6 +5,7 @@ import sqlite3
 import os
 import base64
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
@@ -48,7 +49,9 @@ def save():
     department = request.form['department']
     signature_data = request.form.get('photo_data', '')
 
-    now = datetime.now()
+    from datetime import datetime, timedelta
+
+now = datetime.utcnow() + timedelta(hours=5, minutes=30)
 
     date = now.strftime("%d-%m-%Y")
     checkin_time = now.strftime("%I:%M %p")
@@ -161,7 +164,9 @@ def checkout():
 
     name = request.form['name'].strip()
 
-    checkout_time = datetime.now().strftime("%I:%M %p")
+    checkout_time = datetime.now(
+    ZoneInfo("Asia/Kolkata")
+).strftime("%I:%M %p")
 
     conn = sqlite3.connect("attendance.db")
     cursor = conn.cursor()
@@ -301,7 +306,9 @@ def records():
 
     rows = cursor.fetchall()
 
-    today = datetime.now().strftime("%d-%m-%Y")
+    today = datetime.now(
+    ZoneInfo("Asia/Kolkata")
+).strftime("%d-%m-%Y")
 
     present_today = sum(
         1 for row in rows
