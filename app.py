@@ -514,11 +514,17 @@ def export():
     )
 @app.route('/supabase-test')
 def supabase_test():
-
     result = supabase.table("attendance").select("*").execute()
-
     return str(result.data)
 
 
+@app.route('/cloudinary-test')
+def cloudinary_test():
+    import os
+
+    return f"""
+    CLOUD NAME: {os.environ.get('CLOUDINARY_CLOUD_NAME')} <br>
+    API KEY: {os.environ.get('CLOUDINARY_API_KEY')} <br>
+    SECRET EXISTS: {bool(os.environ.get('CLOUDINARY_API_SECRET'))}
 if __name__ == '__main__':
     app.run(debug=True)
