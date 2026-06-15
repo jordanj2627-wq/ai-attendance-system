@@ -100,10 +100,10 @@ checkin_time = now.strftime("%I:%M %p")
 
     signature_filename = ""
 
+        signature_filename = ""
+
     if signature_data:
-
         try:
-
             header, encoded = signature_data.split(",", 1)
 
             image_data = base64.b64decode(encoded)
@@ -144,7 +144,7 @@ checkin_time = now.strftime("%I:%M %p")
     conn.commit()
     conn.close()
 
-    return f"""
+        return f"""
     <html>
     <body style="font-family:Arial;text-align:center;margin-top:80px;">
         <h2>Attendance Saved Successfully</h2>
