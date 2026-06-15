@@ -126,11 +126,13 @@ supabase.table("attendance").insert({
     "photo_url": signature_filename
 }).execute()
 
-    conn.commit()
-    conn.close()
+conn.commit()
+conn.close()
 
-    return f"""
-    <html>
+return f"""
+<html>
+...
+"""
     <body style="font-family:Arial;text-align:center;margin-top:80px;">
         <h2>Attendance Saved Successfully</h2>
         <p><b>Name:</b> {name}</p>
