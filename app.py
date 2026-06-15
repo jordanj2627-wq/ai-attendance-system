@@ -539,11 +539,13 @@ def export():
         filename,
         as_attachment=True
     )
-if __name__ == '__main__':
-    app.run(debug=True)
 @app.route('/supabase-test')
 def supabase_test():
 
     result = supabase.table("attendance").select("*").execute()
 
     return str(result.data)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
