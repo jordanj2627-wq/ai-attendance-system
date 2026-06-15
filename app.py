@@ -63,12 +63,10 @@ def save():
     department = request.form['department']
     signature_data = request.form.get('photo_data', '')
 
-    now = datetime.now(
-    ZoneInfo("Asia/Kolkata")
-)
+    now = datetime.now(ZoneInfo("Asia/Kolkata"))
 
-    date = now.strftime("%d-%m-%Y")
-    checkin_time = now.strftime("%I:%M %p")
+date = now.strftime("%d-%m-%Y")
+checkin_time = now.strftime("%I:%M %p")
 
     conn = sqlite3.connect("attendance.db")
     cursor = conn.cursor()
@@ -164,9 +162,7 @@ def checkout():
 
     name = request.form['name'].strip()
 
-    checkout_time = datetime.now(
-    ZoneInfo("Asia/Kolkata")
-).strftime("%I:%M %p")
+    checkout_time = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%I:%M %p")
 
     conn = sqlite3.connect("attendance.db")
     cursor = conn.cursor()
