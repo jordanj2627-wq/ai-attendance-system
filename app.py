@@ -1,3 +1,4 @@
+from supabase import create_client
 from flask import Flask, render_template, request, session, redirect, send_file
 from openpyxl import Workbook
 
@@ -13,7 +14,13 @@ from zoneinfo import ZoneInfo
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.secret_key = "BelgiumAttendance2026"
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 
+supabase = create_client(
+    SUPABASE_URL,
+    SUPABASE_KEY
+)
 ADMIN_USERNAME = "Jordan"
 ADMIN_PASSWORD = "Belgium@TS"
 cloudinary.config(
@@ -534,3 +541,9 @@ def export():
     )
 if __name__ == '__main__':
     app.run(debug=True)
+@app.route('/supabase-test')
+def supabase_test():
+
+    result = supabase.table("attendance").select("*").execute()
+
+    return str(result.data)
