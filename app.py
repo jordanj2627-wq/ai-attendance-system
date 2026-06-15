@@ -142,62 +142,6 @@ def save():
     conn.close()
 
     return f"""
-        <html>
-        <body style="font-family:Arial;text-align:center;margin-top:80px;">
-        <h2 style="color:red;">Attendance Already Marked Today</h2>
-        <p><b>{name}</b> has already checked in today.</p>
-        <br><br>
-        <a href="/">Back</a>
-        </body>
-        </html>
-        """
-
-
-        signature_filename = ""
-
-    if signature_data:
-        try:
-            header, encoded = signature_data.split(",", 1)
-
-            image_data = base64.b64decode(encoded)
-
-            upload_result = cloudinary.uploader.upload(
-                image_data,
-                folder="attendance_photos"
-            )
-
-            signature_filename = upload_result["secure_url"]
-
-        except Exception as e:
-            print("Cloudinary Error:", e)
-
-    cursor.execute(
-        """
-        INSERT INTO attendance
-        (
-            name,
-            department,
-            date,
-            checkin_time,
-            checkout_time,
-            signature_file
-        )
-        VALUES (?,?,?,?,?,?)
-        """,
-        (
-            name,
-            department,
-            date,
-            checkin_time,
-            "",
-            signature_filename
-        )
-    )
-
-    conn.commit()
-    conn.close()
-
-        return f"""
     <html>
     <body style="font-family:Arial;text-align:center;margin-top:80px;">
         <h2>Attendance Saved Successfully</h2>
@@ -209,8 +153,6 @@ def save():
     </body>
     </html>
     """
-        
-@app.route('/checkout', methods=['POST'])
 def checkout():
 
     name = request.form['name'].strip()
