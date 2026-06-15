@@ -139,6 +139,7 @@ def save():
     </body>
     </html>
     """
+@app.route('/checkout', methods=['POST'])
 def checkout():
 
     name = request.form['name'].strip()
