@@ -99,23 +99,25 @@ def save():
 
     signature_filename = ""
 
-    if signature_data:
-        try:
-            header, encoded = signature_data.split(",", 1)
+signature_filename = ""
 
-            image_data = base64.b64decode(encoded)
+if signature_data:
+    try:
+        header, encoded = signature_data.split(",", 1)
 
-            upload_result = cloudinary.uploader.upload(
-                image_data,
-                folder="attendance_photos"
-            )
+        image_data = base64.b64decode(encoded)
 
-            signature_filename = upload_result["secure_url"]
+        upload_result = cloudinary.uploader.upload(
+            image_data,
+            folder="attendance_photos"
+        )
 
-except Exception as e:
-    import traceback
-    print("Cloudinary Error:", str(e))
-    traceback.print_exc()
+        signature_filename = upload_result["secure_url"]
+
+    except Exception as e:
+        import traceback
+        print("Cloudinary Error:", str(e))
+        traceback.print_exc()
 
 supabase.table("attendance").insert({
     "name": name,
