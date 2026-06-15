@@ -115,28 +115,14 @@ def save():
         except Exception as e:
             print("Cloudinary Error:", e)
 
-    cursor.execute(
-        """
-        INSERT INTO attendance
-        (
-            name,
-            department,
-            date,
-            checkin_time,
-            checkout_time,
-            signature_file
-        )
-        VALUES (?,?,?,?,?,?)
-        """,
-        (
-            name,
-            department,
-            date,
-            checkin_time,
-            "",
-            signature_filename
-        )
-    )
+supabase.table("attendance").insert({
+    "name": name,
+    "department": department,
+    "attendance_date": date,
+    "checkin_time": checkin_time,
+    "checkout_time": "",
+    "photo_url": signature_filename
+}).execute()
 
     conn.commit()
     conn.close()
