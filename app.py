@@ -112,8 +112,10 @@ def save():
 
             signature_filename = upload_result["secure_url"]
 
-        except Exception as e:
-            print("Cloudinary Error:", e)
+except Exception as e:
+    import traceback
+    print("Cloudinary Error:", str(e))
+    traceback.print_exc()
 
     supabase.table("attendance").insert({
         "name": name,
