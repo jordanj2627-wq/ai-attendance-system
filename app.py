@@ -101,6 +101,8 @@ def save():
 
 signature_filename = ""
 
+signature_filename = ""
+
 if signature_data:
     try:
         header, encoded = signature_data.split(",", 1)
