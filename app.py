@@ -117,14 +117,14 @@ except Exception as e:
     print("Cloudinary Error:", str(e))
     traceback.print_exc()
 
-    supabase.table("attendance").insert({
-        "name": name,
-        "department": department,
-        "attendance_date": date,
-        "checkin_time": checkin_time,
-        "checkout_time": "",
-        "photo_url": signature_filename
-    }).execute()
+supabase.table("attendance").insert({
+    "name": name,
+    "department": department,
+    "attendance_date": date,
+    "checkin_time": checkin_time,
+    "checkout_time": "",
+    "photo_url": signature_filename
+}).execute()
 
     conn.commit()
     conn.close()
@@ -528,5 +528,8 @@ def cloudinary_test():
     CLOUD NAME: {os.environ.get('CLOUDINARY_CLOUD_NAME')} <br>
     API KEY: {os.environ.get('CLOUDINARY_API_KEY')} <br>
     SECRET EXISTS: {bool(os.environ.get('CLOUDINARY_API_SECRET'))}
+    """
+
+
 if __name__ == '__main__':
     app.run(debug=True)
