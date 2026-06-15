@@ -454,10 +454,22 @@ Export Attendance
 
     for row in rows:
 
-    signature_html = "No Signature"
+        signature_html = "No Signature"
 
-    if row[6]:
-        signature_html = f'<img src="{row[6]}">'
+        if row[6]:
+            signature_html = f'<img src="{row[6]}">'
+
+        html += f"""
+        <tr>
+            <td>{row[0]}</td>
+            <td>{row[1]}</td>
+            <td>{row[2]}</td>
+            <td>{row[3]}</td>
+            <td>{row[4]}</td>
+            <td>{row[5]}</td>
+            <td>{signature_html}</td>
+        </tr>
+        """
 
     html += f"""
     <tr>
