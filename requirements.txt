@@ -2,3 +2,5 @@ Flask
 openpyxl
 gunicorn
 cloudinary
+supabase
+psycopg2-binary
