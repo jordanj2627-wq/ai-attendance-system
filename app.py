@@ -4,6 +4,9 @@ from openpyxl import Workbook
 import sqlite3
 import os
 import base64
+
+import cloudinary
+import cloudinary.uploader
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -13,7 +16,11 @@ app.secret_key = "BelgiumAttendance2026"
 
 ADMIN_USERNAME = "Jordan"
 ADMIN_PASSWORD = "Belgium@TS"
-
+cloudinary.config(
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET")
+)
 # Create signatures folder
 os.makedirs("static/photos", exist_ok=True)
 
@@ -88,31 +95,23 @@ def save():
 
     signature_filename = ""
 
-    if signature_data:
+if signature_data:
 
-        try:
+    try:
 
-            header, encoded = signature_data.split(",", 1)
+        header, encoded = signature_data.split(",", 1)
 
-            image_data = base64.b64decode(encoded)
+        image_data = base64.b64decode(encoded)
 
-            timestamp = now.strftime("%Y%m%d%H%M%S")
+        upload_result = cloudinary.uploader.upload(
+            image_data,
+            folder="attendance_photos"
+        )
 
-            safe_name = name.replace(" ", "_")
+        signature_filename = upload_result["secure_url"]
 
-            signature_filename = f"{safe_name}_{timestamp}.jpg"
-
-            filepath = os.path.join(
-    "static",
-    "photos",
-    signature_filename
-)
-
-            with open(filepath, "wb") as f:
-                f.write(image_data)
-
-        except Exception as e:
-            print("Photo Error:", e)
+    except Exception as e:
+        print("Cloudinary Error:", e)
 
     cursor.execute(
         """
@@ -451,7 +450,7 @@ Export Attendance
         signature_html = "No Signature"
 
         if row[6]:
-            signature_html = f'<img src="/static/photos/{row[6]}">'
+    signature_html = f'<img src="{row[6]}">'
 
         html += f"""
         <tr>
