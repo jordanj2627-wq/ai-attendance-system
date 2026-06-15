@@ -102,23 +102,23 @@ def save():
 
     signature_filename = ""
 
-if signature_data:
+    if signature_data:
 
-    try:
+        try:
 
-        header, encoded = signature_data.split(",", 1)
+            header, encoded = signature_data.split(",", 1)
 
-        image_data = base64.b64decode(encoded)
+            image_data = base64.b64decode(encoded)
 
-        upload_result = cloudinary.uploader.upload(
-            image_data,
-            folder="attendance_photos"
-        )
+            upload_result = cloudinary.uploader.upload(
+                image_data,
+                folder="attendance_photos"
+            )
 
-        signature_filename = upload_result["secure_url"]
+            signature_filename = upload_result["secure_url"]
 
-    except Exception as e:
-        print("Cloudinary Error:", e)
+        except Exception as e:
+            print("Cloudinary Error:", e)
 
     cursor.execute(
         """
@@ -149,22 +149,16 @@ if signature_data:
     return f"""
     <html>
     <body style="font-family:Arial;text-align:center;margin-top:80px;">
-
         <h2>Attendance Saved Successfully</h2>
-
         <p><b>Name:</b> {name}</p>
         <p><b>Department:</b> {department}</p>
         <p><b>Check In:</b> {checkin_time}</p>
-
         <br><br>
-
         <a href="/">Back</a>
-
     </body>
     </html>
     """
-
-
+        
 @app.route('/checkout', methods=['POST'])
 def checkout():
 
