@@ -97,10 +97,6 @@ def save():
         </html>
         """
 
-    signature_filename = ""
-
-signature_filename = ""
-
 signature_filename = ""
 
 if signature_data:
